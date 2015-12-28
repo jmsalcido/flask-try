@@ -2,13 +2,13 @@
 {% block content %}
     <h1>Hi, {{ user.nickname }}!</h1>
     {% for post in posts %}
-    <div>
-      <p>
-        On {{ post.date }}:
-      </p>
-      <p>
-        {{ post.author.nickname }} said: <b>{{ post.body }}</b>
-      </p>
-    </div>
+        <div>
+            <p>
+                On {{ post.date }}:
+            </p>
+            <p>
+                {{ post.author.nickname }} said: <b>{{ post.body }}</b>
+            </p>
+        </div>
     {% endfor %}
 {% endblock %}
