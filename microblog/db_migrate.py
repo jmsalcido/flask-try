@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 import imp
 from migrate.versioning import api
 from config import SQLALCHEMY_DATABASE_URI
