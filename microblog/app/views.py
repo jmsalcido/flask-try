@@ -27,13 +27,16 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
-        flash('Login requested for OpenID="{0}", remember_me={1}'
-              .format(form.openid.data, str(form.remember_me.data)))
-        return redirect('/index')
-    return render_template('login.html',
-                           title='Sign In',
-                           form=form)
+    if request.method == "GET":
+        if form.validate_on_submit():
+            flash('Login requested for form="{0}", remember_me={1}'
+                  .format(form.data, str(form.remember_me.data)))
+        return render_template('login.html',
+                               title='Sign In',
+                               form=form)
+    elif request.method == "POST":
+        pass
+    return redirect('/index')
 
 
 @app.route('/register', methods=['GET', 'POST'])
