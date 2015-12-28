@@ -6,7 +6,7 @@
         {{ field(class_=form_class, **kwargs) }}
         {% if field.errors %}
             {% for e in field.errors %}
-                <p class="help-block">{{ e }}</p>
+                <span class="help-block">{{ e }}</span>
             {% endfor %}
         {% endif %}
     </div>
