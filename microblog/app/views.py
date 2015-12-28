@@ -1,6 +1,7 @@
-from flask import render_template, flash, redirect
-from app import app
-from .forms import LoginForm
+from flask import render_template, flash, redirect, request, url_for
+from app import app, db
+from .forms import LoginForm, RegisterForm
+from .models import User
 import datetime
 
 
@@ -38,4 +39,19 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     # need to create register form.
+    if request.method == "GET":
+        form = RegisterForm()
+        return render_template("register.html", form=form)
+    elif request.method == "POST":
+        password = request.form["password"]
+        repeated_password = request.form["repeated_password"]
+        if password != repeated_password:
+            flash('Passwords are different')
+            return redirect(url_for("register"))
+        user = User(request.form["username"], request.form["password"], request.form["email"])
+        db.session.add(user)
+        db.session.commit()
+        flash('User successfully registered')
+        # register should happen.
+        return redirect(url_for("login"))
     return render_template("index.html", title="Register")

@@ -1,0 +1,17 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Register</h1>
+    <form action="/register" method="post" name="register">
+        {#  CSRF token stuff from WTForms  #}
+        {{ form.hidden_tag() }}
+        {{ macros.render_field(form.username, "username_field")}}
+        {{ macros.render_field(form.password, "password_field automation_password_field")}}
+        {{ macros.render_field(form.repeat_password, "repeated_password_field automation_repeated_password_field")}}
+        {{ macros.render_field(form.email, "email_field automation_email_field")}}
+        <input type="submit" value="Register">
+    </form>
+    <th>
+    <p>or <a href="/register">Register!</a></p>
+{% endblock %}
