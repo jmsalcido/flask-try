@@ -52,7 +52,7 @@ def register():
             existing_user = db.session.query(User).filter(User.username == username).first()
             if existing_user is not None:
                 flash('There is a username with the name {0}'.format(username))
-                return redirect(url_for("register"))
+                return render_template("register.html", form=form)
             user = User(username, password, request.form["email"])
             db.session.add(user)
             db.session.commit()
