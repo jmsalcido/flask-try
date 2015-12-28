@@ -1,1 +1,10 @@
-<div class="header">Microblog: <a href="/index">Home</a></div>
+<div class="header">
+    <span>
+        Microblog:
+    </span>
+    <a href="/index">Home</a>
+{#    if logged in #}
+{#    show logged in info#}
+{#    else#}
+    <a href="/login">Login</a>
+</div>
