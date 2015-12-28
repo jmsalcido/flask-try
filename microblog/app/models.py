@@ -1,8 +1,6 @@
-from app import app
-from flask.ext.sqlalchemy import SQLAlchemy
+from app import app, db
 from flask.ext.login import LoginManager, UserMixin
 
-db = SQLAlchemy(app)
 lm = LoginManager(app)
 
 
@@ -28,6 +26,6 @@ class Post(db.Model):
         return '<Post {0}:{1}>'.format(self.id, self.timestamp)
 
 
-@lm.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+# @lm.user_loader
+# def load_user(id):
+#     return User.query.get(int(id))
