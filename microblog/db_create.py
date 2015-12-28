@@ -1,8 +1,11 @@
+import os.path
 from migrate.versioning import api
 from config import SQLALCHEMY_DATABASE_URI
 from config import SQLALCHEMY_MIGRATE_REPO
-from app import db
-import os.path
+from app import app
+from flask.ext.sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy(app)
 
 db.create_all()
 if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
