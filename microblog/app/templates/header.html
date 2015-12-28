@@ -2,9 +2,13 @@
     <span>
         Microblog:
     </span>
-    <a href="/index">Home</a>
-{#    if logged in #}
-{#    show logged in info#}
-{#    else#}
-    <a href="/login">Login</a>
+    <a href="{{ url_for("index") }}">Home</a>
+    {% if g.user.is_authenticated %}
+        <span class="welcome-username">Welcome back {{ g.user.username }}</span>
+        <a href="{{ url_for("logout") }}">Logout</a>
+    {% endif %}
+    {% if not g.user.is_authenticated %}
+        <a href="{{ url_for("login") }}">Login</a>
+        <a href="{{ url_for("register") }}">Register</a>
+    {% endif %}
 </div>

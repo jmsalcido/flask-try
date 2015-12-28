@@ -4,9 +4,9 @@ from wtforms.validators import DataRequired, Email, EqualTo
 
 
 class LoginForm(Form):
-    user = StringField('User', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me', default=False)
+    username = StringField(label='Username', validators=[DataRequired()])
+    password = PasswordField(label='Password', validators=[DataRequired()])
+    remember_me = BooleanField(label='Remember Me', default=False)
 
 
 class RegisterForm(Form):

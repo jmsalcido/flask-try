@@ -6,11 +6,11 @@
     <form action="" method="post" name="login">
         {#  CSRF token stuff from WTForms  #}
         {{ form.hidden_tag() }}
-        {{ macros.render_field(form.user, "user_field")}}
+        {{ macros.render_field(form.username, "username_field")}}
         {{ macros.render_field(form.password, "password_field automation_password_field")}}
         {{ macros.render_field(form.remember_me)}}
         <input type="submit" value="Sign In">
     </form>
-    <th>
+    <hr>
     <p>or <a href="/register">Register!</a></p>
 {% endblock %}
