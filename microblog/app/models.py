@@ -31,7 +31,8 @@ class User(db.Model, UserMixin):
 
 
 class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = "posts"
+    id = db.Column(name="post_id", type_=db.Integer, primary_key=True)
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
