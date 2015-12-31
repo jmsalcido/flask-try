@@ -14,20 +14,22 @@ def before_request():
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'nickname': 'José'}
-    posts = [
-        {
-            'author': {'nickname': 'One'},
-            'body': 'Beautiful day in Los Mochis!',
-            'date': datetime.date.today()
-        },
-        {
-            'author': {'nickname': 'Two'},
-            'body': 'I hate everyone.',
-            'date': datetime.date.today()
-        }
-    ]
-    return render_template('index.html', title="Home", user=user, posts=posts)
+    if g.user.is_authenticated:
+        user = User.query.filter_by(username=g.user.username).first()
+        posts = [
+            {
+                'author': {'nickname': 'One'},
+                'body': 'Beautiful day in Los Mochis!',
+                'date': datetime.date.today()
+            },
+            {
+                'author': {'nickname': 'Two'},
+                'body': 'I hate everyone.',
+                'date': datetime.date.today()
+            }
+        ]
+        return render_template('index.html', title="Home", user=user, posts=posts)
+    return render_template('index.html', title="Home")
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -53,7 +55,6 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    # need to create register form.
     form = RegisterForm()
     if request.method == "GET" and not g.user.is_authenticated:
         return render_template("register.html", form=form)
@@ -61,7 +62,7 @@ def register():
         if form.validate_on_submit():
             username = request.form["username"]
             password = request.form["password"]
-            existing_user = db.session.query(User).filter(User.username == username).first()
+            existing_user = User.query.filter_by(username=username).first()
             if existing_user is not None:
                 flash('There is a username with the name {0}'.format(username))
                 return render_template("register.html", form=form)
@@ -72,6 +73,19 @@ def register():
             return redirect(url_for("login"))
         return render_template("register.html", form=form)
     return redirect(request.args.get('next') or url_for('index'))
+
+
+@app.route('/user/<username>', methods=['GET'])
+def user(username):
+    user_profile = User.query.filter_by(username=username).first()
+    if user_profile is None:
+        flash("User with username: {0} was not found".format(username))
+        return redirect(url_for('index'))
+    posts = [
+        {'id': 1, 'author': user_profile, 'body': 'This is a test post #1'},
+        {'id': 2, 'author': user_profile, 'body': 'This is a test post #2'}
+    ]
+    return render_template('user.html', user=user_profile, posts=posts)
 
 
 def find_user(username):

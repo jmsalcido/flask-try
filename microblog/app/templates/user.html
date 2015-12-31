@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    <style>
+        #user-info .username {
+            font-weight: bold;
+        }
+    </style>
+    <div id="user-header">
+        <div id="user-info">
+            <h1>Username Info:</h1>
+            <div id="user-avatar">
+                <img src="{{ user.avatar(128) }}">
+            </div>
+            <span>Username: <span class="username">{{ user.username }}</span><br/>
+            <span>Registered on: {{ user.registered_on }}</span>
+        </div>
+    </div>
+    <hr>
+    <div class="user-post-list">
+        {% for post in posts %}
+            <p class="post {{ post.id }}">
+                {{ post.author.nickname }} says: <b>{{ post.body }}</b>
+            </p>
+        {% endfor %}
+    </div>
+{% endblock %}

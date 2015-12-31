@@ -1,14 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Hi, {{ user.nickname }}!</h1>
-    {% for post in posts %}
-        <div>
-            <p>
-                On {{ post.date }}:
-            </p>
-            <p>
-                {{ post.author.nickname }} said: <b>{{ post.body }}</b>
-            </p>
+    {% if g.user.is_authenticated %}
+        <div class="welcome-logged">
+            <h1>Hi, {{ user.nickname }}!</h1>
+            {% for post in posts %}
+                <div>
+                    <p>
+                        On {{ post.date }}:
+                    </p>
+                    <p>
+                        {{ post.author.nickname }} said: <b>{{ post.body }}</b>
+                    </p>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+    {% else %}
+        <div class="welcome-anonymouse">
+            <p>Welcome to the magical world of your mother.</p>
+        </div>
+    {% endif %}
 {% endblock %}

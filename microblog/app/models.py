@@ -1,6 +1,7 @@
 from datetime import datetime
 from app import db, lm
 from flask.ext.login import UserMixin
+import hashlib
 from passlib.apps import custom_app_context as pwd_context
 
 
@@ -19,6 +20,10 @@ class User(db.Model, UserMixin):
         self.email = email
         self.registered_on = datetime.utcnow()
         self.hash_password(password)
+
+    def avatar(self, size):
+        gravatar_url = 'http://www.gravatar.com/avatar/{0}?d=mm&s={1}'
+        return gravatar_url.format(hashlib.md5(self.email.encode('utf-8')).hexdigest(), size)
 
     def hash_password(self, password):
         self.password_hash = pwd_context.encrypt(password)
