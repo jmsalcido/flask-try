@@ -1,8 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
     <style>
+        #post-list .username,
         #user-info .username {
             font-weight: bold;
+        }
+
+        #user-info span.user-info {
+            display: block;
+        }
+
+        #post-list div.post-content {
+            margin-bottom: 32px;
+        }
+
+        .post img {
+            margin-right: 10px;
+            float: left;
         }
     </style>
     <div id="user-header">
@@ -11,16 +25,20 @@
             <div id="user-avatar">
                 <img src="{{ user.avatar(128) }}">
             </div>
-            <span>Username: <span class="username">{{ user.username }}</span><br/>
-            <span>Registered on: {{ user.registered_on }}</span>
+            <span class="user-info">Username: <span class="username">{{ user.username }}</span>
+            <span class="user-info">Registered on: {{ user.registered_on }}</span>
         </div>
     </div>
     <hr>
-    <div class="user-post-list">
+    <div id="post-list">
         {% for post in posts %}
-            <p class="post {{ post.id }}">
-                {{ post.author.nickname }} says: <b>{{ post.body }}</b>
-            </p>
+            <div class="post {{ post.id }}">
+                <img src="{{ user.avatar(48) }}">
+                <div class="post-user">
+                    <span class="username">{{ post.author.username }}</span> says:
+                </div>
+                <div class="post-content">{{ post.body }}</div>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
