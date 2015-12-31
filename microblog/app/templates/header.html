@@ -5,7 +5,7 @@
     <a href="{{ url_for("index") }}">Home</a>
     {% if g.user.is_authenticated %}
         <span class="welcome-username">Welcome back {{ g.user.username }}</span>
-        <a href="{{ url_for("user", username=g.user.username) }}">Your profile</a>
+        <a href="{{ url_for("user_profile", username=g.user.username) }}">Your profile</a>
         <a href="{{ url_for("logout") }}">Logout</a>
     {% endif %}
     {% if not g.user.is_authenticated %}

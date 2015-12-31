@@ -76,16 +76,16 @@ def register():
 
 
 @app.route('/user/<username>', methods=['GET'])
-def user(username):
-    user_profile = User.query.filter_by(username=username).first()
-    if user_profile is None:
+def user_profile(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
         flash("User with username: {0} was not found".format(username))
         return redirect(url_for('index'))
     posts = [
-        {'id': 1, 'author': user_profile, 'body': 'This is a test post #1'},
-        {'id': 2, 'author': user_profile, 'body': 'This is a test post #2'}
+        {'id': 1, 'author': user, 'body': 'This is a test post #1'},
+        {'id': 2, 'author': user, 'body': 'This is a test post #2'}
     ]
-    return render_template('user.html', user=user_profile, posts=posts)
+    return render_template('user.html', user=user, posts=posts)
 
 
 def find_user(username):
