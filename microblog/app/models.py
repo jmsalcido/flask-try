@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     registered_on = db.Column('registered_on', db.DateTime)
+    about_me = db.Column(db.String(140))
 
     def __init__(self, username, password, email):
         self.username = username

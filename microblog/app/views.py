@@ -3,12 +3,16 @@ from flask.ext.login import login_user, logout_user, current_user
 from app import app, db
 from .forms import LoginForm, RegisterForm
 from .models import User
-import datetime
+from datetime import datetime
 
 
 @app.before_request
 def before_request():
     g.user = current_user
+    if g.user.is_authenticated:
+        g.user.last_seen = datetime.utcnow()
+        db.session.add(g.user)
+        db.session.commit()
 
 
 @app.route('/')
@@ -20,12 +24,12 @@ def index():
             {
                 'author': {'nickname': 'One'},
                 'body': 'Beautiful day in Los Mochis!',
-                'date': datetime.date.today()
+                'date': datetime.utcnow()
             },
             {
                 'author': {'nickname': 'Two'},
                 'body': 'I hate everyone.',
-                'date': datetime.date.today()
+                'date': datetime.utcnow()
             }
         ]
         return render_template('index.html', title="Home", user=user, posts=posts)
@@ -85,7 +89,8 @@ def user_profile(username):
         {'id': 1, 'author': user, 'body': 'This is a test post #1'},
         {'id': 2, 'author': user, 'body': 'This is a test post #2'}
     ]
-    return render_template('user.html', user=user, posts=posts)
+    title = "{0} Profile".format(username)
+    return render_template('user.html', title=title, user=user, posts=posts)
 
 
 def find_user(username):

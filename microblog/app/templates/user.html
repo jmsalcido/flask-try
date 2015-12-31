@@ -6,12 +6,21 @@
             font-weight: bold;
         }
 
+        #user-info .user-box {
+            max-width: 400px;
+            width: 20%;
+        }
+
         #user-info span.user-info {
             display: block;
         }
 
-        #post-list div.post-content {
+        #post-list div.post-body {
             margin-bottom: 32px;
+        }
+
+        .post .post-body {
+            overflow: hidden;
         }
 
         .post img {
@@ -22,23 +31,33 @@
     <div id="user-header">
         <div id="user-info">
             <h1>Username Info:</h1>
-            <div id="user-avatar">
-                <img src="{{ user.avatar(128) }}">
+            <div class="user-box">
+                <div id="user-avatar">
+                    <img src="{{ user.avatar(128) }}"/>
+                </div>
+            <span class="user-info">
+                Username: <span class="username">{{ user.username }}</span>
+            </span>
+            <span class="user-info">
+                Registered on: {{ user.registered_on }}
+            </span>
+                {% if user.last_seen %}
+                    <span class="user-info">
+                    Last seen on: {{ user.last_seen }}
+                </span>
+                {% endif %}
+                {% if user.about_me %}
+                    <span class="user-info">
+                    About me: {{ user.about_me }}
+                </span>
+                {% endif %}
             </div>
-            <span class="user-info">Username: <span class="username">{{ user.username }}</span>
-            <span class="user-info">Registered on: {{ user.registered_on }}</span>
         </div>
     </div>
     <hr>
     <div id="post-list">
         {% for post in posts %}
-            <div class="post {{ post.id }}">
-                <img src="{{ user.avatar(48) }}">
-                <div class="post-user">
-                    <span class="username">{{ post.author.username }}</span> says:
-                </div>
-                <div class="post-content">{{ post.body }}</div>
-            </div>
+            {% include 'post.html' %}
         {% endfor %}
     </div>
 {% endblock %}

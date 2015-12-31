@@ -1,0 +1,11 @@
+<div class="post {{ post.id }}">
+    <img src="{{ user.avatar(48) }}">
+    <div class="post-body">
+        <div class="user">
+            <span class="username">{{ post.author.username }}</span> says:
+        </div>
+        <div class="content">
+            {{ post.body }}
+        </div>
+    </div>
+</div>
