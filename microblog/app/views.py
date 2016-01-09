@@ -66,11 +66,16 @@ def register():
         if form.validate_on_submit():
             username = request.form["username"]
             password = request.form["password"]
+            email = request.form["email"]
             existing_user = User.query.filter_by(username=username).first()
+            existing_email = User.query.filter_by(email=email).first()
             if existing_user is not None:
-                flash('There is a username with the name {0}'.format(username))
+                flash('There is an user with the username: {0}'.format(username))
                 return render_template("register.html", form=form)
-            user = User(username, password, request.form["email"])
+            if existing_email is not None:
+                flash('There is an user with the email: {0}'.format(email))
+                return render_template("register.html", form=form)
+            user = User(username, password, email)
             db.session.add(user)
             db.session.commit()
             flash('User successfully registered')
