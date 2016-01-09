@@ -22,12 +22,12 @@ def index():
         user = User.query.filter_by(username=g.user.username).first()
         posts = [
             {
-                'author': {'nickname': 'One'},
+                'author': {'username': 'One'},
                 'body': 'Beautiful day in Los Mochis!',
                 'date': datetime.utcnow()
             },
             {
-                'author': {'nickname': 'Two'},
+                'author': {'username': 'Two'},
                 'body': 'I hate everyone.',
                 'date': datetime.utcnow()
             }
@@ -127,3 +127,14 @@ def user_edit_profile():
 
 def find_user(username):
     return db.session.query(User).filter(User.username == username).first()
+
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('error/404.html'), 404
+
+
+@app.errorhandler(500)
+def not_found_error(error):
+    db.session.rollback()
+    return render_template('error/500.html'), 500
