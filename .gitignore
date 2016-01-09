@@ -1,3 +1,7 @@
+# ignore tmp and log files
+./tmp/*
+*.log
+
 # IDEA files
 .idea
 
