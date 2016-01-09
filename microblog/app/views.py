@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, request, url_for, g
-from flask.ext.login import login_user, logout_user, current_user
+from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, EditForm
 from .models import User
 from datetime import datetime
 
@@ -90,7 +90,34 @@ def user_profile(username):
         {'id': 2, 'author': user, 'body': 'This is a test post #2'}
     ]
     title = "{0} Profile".format(username)
-    return render_template('user.html', title=title, user=user, posts=posts)
+    return render_template('user/user.html', title=title, user=user, posts=posts)
+
+
+@app.route('/user/edit/', methods=['GET', 'POST'])
+@login_required
+def user_edit_profile():
+    user = g.user
+    form = EditForm()
+    if request.method == "POST" and form.validate_on_submit():
+        username = form.username.data
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user is not None and g.user.username != username:
+            flash("User with username: " + username + " already exists.")
+            return render_template('user/edit_user.html', user=user, form=form)
+        g.user.username = username
+        g.user.about_me = form.about_me.data
+        db.session.add(g.user)
+        db.session.commit()
+        return redirect(url_for("user_profile", username=username))
+    elif request.method == "POST":
+
+        return render_template('user/edit_user.html', user=user, form=form)
+    elif request.method == "GET":
+        form.username.data = user.username
+        form.about_me.data = user.about_me
+        return render_template('user/edit_user.html', user=user, form=form)
+    else:
+        return redirect(url_for("index"))
 
 
 def find_user(username):

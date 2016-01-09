@@ -1,14 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
     <style>
+        #user-avatar {
+            margin-right: 10px;
+            float: left;
+        }
+
+        #user-header {
+            min-height: 200px;
+        }
+
         #post-list .username,
         #user-info .username {
             font-weight: bold;
         }
 
         #user-info .user-box {
-            max-width: 400px;
-            width: 20%;
+            max-width: 600px;
+            width: 30%;
         }
 
         #user-info span.user-info {
@@ -32,27 +41,25 @@
         <div id="user-info">
             <h1>Username Info:</h1>
             <div class="user-box">
-                <div id="user-avatar">
-                    <img src="{{ user.avatar(128) }}"/>
+                <img id="user-avatar" src="{{ user.avatar(128) }}"/>
+                <div class="user-info">
+                    Username: <span class="username">{{ user.username }}</span>
                 </div>
-            <span class="user-info">
-                Username: <span class="username">{{ user.username }}</span>
-            </span>
-            <span class="user-info">
-                Registered on: {{ user.registered_on }}
-            </span>
-                {% if user.last_seen %}
-                    <span class="user-info">
-                    Last seen on: {{ user.last_seen }}
-                </span>
-                {% endif %}
                 {% if user.about_me %}
-                    <span class="user-info">
-                    About me: {{ user.about_me }}
-                </span>
+                    <span class="user-info">About me: {{ user.about_me }}</span>
+                {% endif %}
+                <span class="user-info">Registered on: {{ user.registered_on }}</span>
+                {% if user.last_seen %}
+                    <span class="user-info">Last seen on: {{ user.last_seen }}</span>
                 {% endif %}
             </div>
         </div>
+    </div>
+    <div>
+        {% if user.id == g.user.id %}
+            <a href="/user/edit">Edit</a>
+
+        {% endif %}
     </div>
     <hr>
     <div id="post-list">
