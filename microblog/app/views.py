@@ -67,7 +67,7 @@ def register():
             username = request.form["username"]
             password = request.form["password"]
             email = request.form["email"]
-            existing_user = User.query.filter_by(username=username).first()
+            existing_user = find_user(username)
             existing_email = User.query.filter_by(email=email).first()
             if existing_user is not None:
                 flash('There is an user with the username: {0}'.format(username))
@@ -86,7 +86,7 @@ def register():
 
 @app.route('/user/<username>', methods=['GET'])
 def user_profile(username):
-    user = User.query.filter_by(username=username).first()
+    user = find_user(username)
     if user is None:
         flash("User with username: {0} was not found".format(username))
         return redirect(url_for('index'))
@@ -105,7 +105,7 @@ def user_edit_profile():
     form = EditForm()
     if request.method == "POST" and form.validate_on_submit():
         username = form.username.data
-        existing_user = User.query.filter_by(username=username).first()
+        existing_user = find_user(username)
         if existing_user is not None and g.user.username != username:
             flash("User with username: " + username + " already exists.")
             return render_template('user/edit_user.html', user=user, form=form)
