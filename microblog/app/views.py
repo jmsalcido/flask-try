@@ -45,7 +45,8 @@ def login():
         if form.validate_on_submit():
             user = find_user(request.form["username"])
             login_user(user, remember=form.remember_me.data)
-        return render_template('login.html', title='Sign In', form=form)
+        else:
+            return render_template('login.html', title='Sign In', form=form)
     return redirect(request.args.get('next') or url_for('index'))
 
 
