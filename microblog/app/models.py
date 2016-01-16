@@ -38,6 +38,18 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return '<User {0}>'.format(self.username)
 
+    @staticmethod
+    def make_unique_username(username):
+        if User.query.filter_by(username=username).first() is None:
+            return username
+        version = 2
+        while True:
+            new_username = username + str(version)
+            if User.query.filter_by(username=new_username).first() is None:
+                break
+            version += 1
+        return new_username
+
 
 class Post(db.Model):
     __tablename__ = "posts"
