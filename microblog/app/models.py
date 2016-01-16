@@ -8,7 +8,6 @@ from passlib.apps import custom_app_context as pwd_context
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(name='user_id', type_=db.Integer, primary_key=True)
-    social_id = db.Column(db.String(64), unique=True)
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
     email = db.Column(db.String(120), index=True, unique=True, nullable=True)
     password_hash = db.Column(db.String(128))
