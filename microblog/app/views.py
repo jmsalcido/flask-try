@@ -44,10 +44,8 @@ def login():
     elif request.method == "POST":
         if form.validate_on_submit():
             user = find_user(request.form["username"])
-            if user is None or not user.verify_password(request.form["password"]):
-                flash("The username or password is invalid.")
-                return render_template('login.html', title='Sign In', form=form)
             login_user(user, remember=form.remember_me.data)
+        return render_template('login.html', title='Sign In', form=form)
     return redirect(request.args.get('next') or url_for('index'))
 
 
@@ -64,20 +62,8 @@ def register():
         return render_template("register.html", form=form)
     elif request.method == "POST":
         if form.validate_on_submit():
-            username = request.form["username"]
-            password = request.form["password"]
-            email = request.form["email"]
-            existing_user = find_user(username)
-            existing_email = User.query.filter_by(email=email).first()
-            if existing_user is not None:
-                flash('There is an user with the username: {0}'.format(username))
-                return render_template("register.html", form=form)
-            if existing_email is not None:
-                flash('There is an user with the email: {0}'.format(email))
-                return render_template("register.html", form=form)
-            user = User(username, password, email)
-            db.session.add(user)
-            db.session.commit()
+            user = User(request.form["username"], request.form["password"], request.form["email"])
+            user.save()
             flash('User successfully registered')
             return redirect(url_for("login"))
         return render_template("register.html", form=form)
@@ -102,31 +88,22 @@ def user_profile(username):
 @login_required
 def user_edit_profile():
     user = g.user
-    form = EditForm()
-    if request.method == "POST" and form.validate_on_submit():
-        username = form.username.data
-        existing_user = find_user(username)
-        if existing_user is not None and g.user.username != username:
-            flash("User with username: " + username + " already exists.")
-            return render_template('user/edit_user.html', user=user, form=form)
-        g.user.username = username
-        g.user.about_me = form.about_me.data
-        db.session.add(g.user)
-        db.session.commit()
-        return redirect(url_for("user_profile", username=username))
-    elif request.method == "POST":
-
-        return render_template('user/edit_user.html', user=user, form=form)
+    form = EditForm(user.username)
+    if request.method == "POST":
+        if form.validate_on_submit():
+            username = form.username.data
+            g.user.username = username
+            g.user.about_me = form.about_me.data
+            g.user.save()
+            return redirect(url_for("user_profile", username=username))
     elif request.method == "GET":
         form.username.data = user.username
         form.about_me.data = user.about_me
-        return render_template('user/edit_user.html', user=user, form=form)
-    else:
-        return redirect(url_for("index"))
+    return render_template('user/edit_user.html', user=user, form=form)
 
 
 def find_user(username):
-    return db.session.query(User).filter(User.username == username).first()
+    return User.query.filter_by(username=username).first()
 
 
 @app.errorhandler(404)

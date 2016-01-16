@@ -27,6 +27,10 @@
             margin-right: 10px;
             float: left;
         }
+
+        .error {
+            color: red
+        }
     </style>
     <div id="user-header">
         <form action="" method="POST" name="edit_user">
@@ -37,8 +41,8 @@
                     <div id="user-avatar">
                         <img src="{{ user.avatar(128) }}"/>
                     </div>
-                    <span class="user-info">Username: {{ form.username(size=24) }}</span>
-                    <span class="user-info">About yourself: {{ form.about_me(cols=32, rows=4) }}</span>
+                    {{ macros.render_field(form.username, "user-info", size=24)}}
+                    {{ macros.render_field(form.about_me, "user-info", cols=32, rows=4)}}
                     <span class="user-info">Registered on: {{ user.registered_on }}</span>
                     <input type="submit" value="Save Changes">
                 </div>
