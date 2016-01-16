@@ -31,16 +31,20 @@ class RegisterForm(Form):
     def validate_on_submit(self):
         if not super().validate_on_submit():
             return False
-        user = User.query.filter(or_(User.username == self.username.data, User.email == self.email.data)).first()
-        if user is not None:
-            if self.username.data == user.username:
-                error = "The username: {0} already exists".format(user.username)
-                self.username.errors.append(error)
-            elif self.email.data == user.email:
-                error = "The email: {0} is already registered for an user.".format(user.email)
-                self.email.errors.append(error)
-            return False
-        return True
+        users = User.query.filter(or_(User.username == self.username.data, User.email == self.email.data)).all()
+        valid = True
+        for user in users:
+            if user is not None:
+                if self.username.data == user.username:
+                    proposed = User.make_unique_username(user.username)
+                    error = "The username: {0} already exists, try the following: {1}".format(user.username, proposed)
+                    self.username.errors.append(error)
+                    valid = False
+                elif self.email.data == user.email:
+                    error = "The email: {0} is already registered for an user.".format(user.email)
+                    self.email.errors.append(error)
+                    valid = False
+        return valid
 
 
 class EditForm(Form):
