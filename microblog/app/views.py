@@ -4,6 +4,7 @@ from app import app, db
 from .forms import LoginForm, RegisterForm, EditForm, PostForm
 from .models import User, Post
 from datetime import datetime
+from config import POSTS_PER_PAGE
 
 
 @app.before_request
@@ -17,11 +18,12 @@ def before_request():
 
 @app.route('/')
 @app.route('/index')
-def index():
+@app.route('/index/<int:page>')
+def index(page=1):
     form = PostForm()
     if g.user.is_authenticated:
         user = User.query.filter_by(username=g.user.username).first()
-        posts = g.user.followed_posts().all()
+        posts = g.user.followed_posts().paginate(page, POSTS_PER_PAGE, False)
         return render_template('index.html', title="Home", form=form, user=user, posts=posts)
     return render_template('index.html', title="Home")
 
@@ -81,12 +83,13 @@ def register():
 
 
 @app.route('/user/<username>', methods=['GET'])
-def user_profile(username):
+@app.route('/user/<username>/<int:page>', methods=['GET'])
+def user_profile(username, page=1):
     user = find_user(username)
     if user is None:
         flash("User with username: {0} was not found".format(username))
         return redirect(url_for('index'))
-    posts = user.posts.order_by(Post.timestamp.desc()).all()
+    posts = user.posts.order_by(Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
     title = "{0} Profile".format(username)
     return render_template('user/user.html', title=title, user=user, posts=posts)
 

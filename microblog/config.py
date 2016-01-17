@@ -16,3 +16,5 @@ MAIL_PASSWORD = 'admin'
 
 # administrator list
 ADMINS = ['eljose152@gmail.com']
+
+POSTS_PER_PAGE = 10
