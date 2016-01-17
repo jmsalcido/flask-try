@@ -16,7 +16,7 @@ class LoginForm(Form):
             return False
         user = User.query.filter_by(username=self.username.data).first()
         if user is None or not user.verify_password(self.password.data):
-            self.username.errors.append("Username of password is invalid, please try again.")
+            self.username.errors.append("Username or password is invalid, please try again.")
             return False
         return True
 

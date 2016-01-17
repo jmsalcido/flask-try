@@ -104,6 +104,44 @@ def user_edit_profile():
     return render_template('user/edit_user.html', user=user, form=form)
 
 
+@app.route("/follow/<username>")
+@login_required
+def follow(username):
+    user = find_user(username)
+    if user is None:
+        flash("User: {0} was not found.".format(username))
+        return redirect(url_for("index"))
+    if user == g.user:
+        flash("You cant follow yourself.")
+        return redirect(url_for("user_profile", username=username))
+    u = g.user.follow(user)
+    if u is None:
+        flash("Can't follow {0}".format(username))
+        return redirect(url_for("user_profile", username=username))
+    u.save()
+    flash("You are now following: {0}".format(username))
+    return redirect(url_for("user_profile", username=username))
+
+
+@app.route("/unfollow/<username>")
+@login_required
+def unfollow(username):
+    user = find_user(username)
+    if user is None:
+        flash("User: {0} was not found.".format(username))
+        return redirect(url_for("index"))
+    if user == g.user:
+        flash("You can't unfollow yourself.")
+        return redirect(url_for("user_profile", username=username))
+    u = g.user.unfollow(user)
+    if u is None:
+        flash("Can't unfollow {0}".format(username))
+        return redirect(url_for("user_profile", username=username))
+    u.save()
+    flash("You no longer follow: {0}".format(username))
+    return redirect(url_for("user_profile", username=username))
+
+
 def find_user(username):
     return User.query.filter_by(username=username).first()
 

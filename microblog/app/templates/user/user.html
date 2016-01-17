@@ -58,7 +58,10 @@
     <div>
         {% if user.id == g.user.id %}
             <a href="/user/edit">Edit</a>
-
+        {% elif not g.user.is_following(user) %}
+            <a href="{{ url_for('follow', username=user.username) }}">Follow</a>
+        {% else %}
+            <a href="{{ url_for('unfollow', username=user.username) }}">Unfollow</a>
         {% endif %}
     </div>
     <hr>
