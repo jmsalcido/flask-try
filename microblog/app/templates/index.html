@@ -1,18 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
+    <style>
+
+        #post-list div.post-body {
+            margin-bottom: 32px;
+        }
+
+    </style>
     {% if g.user.is_authenticated %}
         <div class="welcome-logged">
             <h1>Hi, {{ user.username }}!</h1>
-            {% for post in posts %}
-                <div>
-                    <p>
-                        On {{ post.date }}:
-                    </p>
-                    <p>
-                        {{ post.author.username }} said: <b>{{ post.body }}</b>
-                    </p>
-                </div>
-            {% endfor %}
+            <div class="say-something">
+                <h3>Say something:</h3>
+                <form action="/post" method="POST" name="post">
+                    {{ form.hidden_tag() }}
+                    {{ macros.render_field(form.post, size=30, maxlength=140) }}
+                    <input type="submit" value="Say it!"/>
+                </form>
+            </div>
+            <hr/>
+            <div id="post-list">
+                {% for post in posts %}
+                    {% with user=post.author %}
+                        {% include 'post.html' %}
+                    {% endwith %}
+                {% endfor %}
+            </div>
         </div>
     {% else %}
         <div class="welcome-anonymouse">

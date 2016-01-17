@@ -67,7 +67,9 @@
     <hr>
     <div id="post-list">
         {% for post in posts %}
-            {% include 'post.html' %}
+            {% with user=post.author %}
+                {% include 'post.html' %}
+            {% endwith %}
         {% endfor %}
     </div>
 {% endblock %}

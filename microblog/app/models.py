@@ -9,7 +9,13 @@ followers = db.Table('followers',
                      db.Column('followed_id', db.Integer, db.ForeignKey('users.user_id')))
 
 
-class User(db.Model, UserMixin):
+class SaveMixin(object):
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+
+class User(db.Model, UserMixin, SaveMixin):
     __tablename__ = 'users'
     id = db.Column(name='user_id', type_=db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
@@ -41,10 +47,6 @@ class User(db.Model, UserMixin):
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
 
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
-
     def follow(self, user):
         if not self.is_following(user):
             self.followed.append(user)
@@ -60,30 +62,39 @@ class User(db.Model, UserMixin):
 
     def followed_posts(self):
         return Post.query.join(followers, (followers.c.followed_id == Post.user_id)).filter(
-            followers.c.follower_id == self.id).order_by(Post.timestamp.desc())
+                followers.c.follower_id == self.id).order_by(Post.timestamp.desc())
 
     def __repr__(self):
         return '<User {0}>'.format(self.username)
 
     @staticmethod
     def make_unique_username(username):
+        def calculate_name(_str, _number):
+            return _str + str(_number)
+
         if User.query.filter_by(username=username).first() is None:
             return username
         version = 2
+        new_username = calculate_name(username, version)
         while True:
-            new_username = username + str(version)
+            new_username = calculate_name(username, version)
             if User.query.filter_by(username=new_username).first() is None:
                 break
             version += 1
         return new_username
 
 
-class Post(db.Model):
+class Post(db.Model, SaveMixin):
     __tablename__ = "posts"
     id = db.Column(name="post_id", type_=db.Integer, primary_key=True)
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+
+    def __init__(self, body, timestamp=datetime.utcnow(), author=None):
+        self.body = body
+        self.timestamp = timestamp
+        self.author = author
 
     def __repr__(self):
         return '<Post {0}:{1}>'.format(self.id, self.timestamp)

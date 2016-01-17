@@ -63,3 +63,7 @@ class EditForm(Form):
             self.username.data = self.original_username
             return False
         return True
+
+
+class PostForm(Form):
+    post = TextAreaField(label='Post', _name="post", validators=[DataRequired()])
