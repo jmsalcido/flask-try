@@ -86,7 +86,7 @@ def user_profile(username):
     if user is None:
         flash("User with username: {0} was not found".format(username))
         return redirect(url_for('index'))
-    posts = user.posts.all()
+    posts = user.posts.order_by(Post.timestamp.desc()).all()
     title = "{0} Profile".format(username)
     return render_template('user/user.html', title=title, user=user, posts=posts)
 
