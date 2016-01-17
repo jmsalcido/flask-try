@@ -4,6 +4,10 @@ from flask.ext.login import UserMixin
 import hashlib
 from passlib.apps import custom_app_context as pwd_context
 
+followers = db.Table('followers',
+                     db.Column('follower_id', db.Integer, db.ForeignKey('users.user_id')),
+                     db.Column('followed_id', db.Integer, db.ForeignKey('users.user_id')))
+
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -14,6 +18,12 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     registered_on = db.Column('registered_on', db.DateTime)
     about_me = db.Column(db.String(140))
+    followed = db.relationship('User',
+                               secondary=followers,
+                               primaryjoin=(followers.columns.follower_id == id),
+                               secondaryjoin=(followers.columns.followed_id == id),
+                               backref=db.backref('followers', lazy='dynamic'),
+                               lazy='dynamic')
 
     def __init__(self, username, password, email):
         self.username = username
@@ -34,6 +44,19 @@ class User(db.Model, UserMixin):
     def save(self):
         db.session.add(self)
         db.session.commit()
+
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+            return self
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+            return self
+
+    def is_following(self, user):
+        return self.followed.filter(followers.columns.followed_id == user.id).count() > 0
 
     def __repr__(self):
         return '<User {0}>'.format(self.username)
