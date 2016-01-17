@@ -8,6 +8,10 @@
 # database
 *.db
 
+# node and bower
+bower_components
+node_modules
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 app/__pycache__/*
