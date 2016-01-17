@@ -1,0 +1,22 @@
+{
+  "name": "microblog",
+  "description": "",
+  "main": "",
+  "authors": [
+    "jmsalcido <eljose152@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/jmsalcido/python-flask-microblog",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}

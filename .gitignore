@@ -12,6 +12,9 @@
 bower_components
 node_modules
 
+# ignore static files
+microblog/app/static/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 app/__pycache__/*
