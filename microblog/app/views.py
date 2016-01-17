@@ -27,6 +27,7 @@ def index():
 
 
 @app.route("/post", methods=["POST"])
+@login_required
 def post():
     if request.method == "POST":
         form = PostForm()
@@ -47,6 +48,9 @@ def login():
     elif request.method == "POST":
         if form.validate_on_submit():
             user = find_user(request.form["username"])
+            followself = user.follow(user)
+            if followself is not None:
+                user.save()
             login_user(user, remember=form.remember_me.data)
         else:
             return render_template('login.html', title='Sign In', form=form)
