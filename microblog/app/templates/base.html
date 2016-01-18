@@ -6,14 +6,16 @@
         <title>Welcome to people messages</title>
     {% endif %}
     <link href="/static/css/bootstrap.css" rel="stylesheet"/>
-    <link href="/static/css/miniblog.css" rel="stylesheet"/>
+    <link href="/static/css/microblog.css" rel="stylesheet"/>
     <script src="/static/js/jquery.js"></script>
     <script src="/static/js/bootstrap.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 {% import 'macros.html' as macros %}
-{% include "header.html" %}
+{% with active = active %}
+    {% include "header.html" %}
+{% endwith %}
 {% with messages = get_flashed_messages() %}
     {% if messages %}
         {% for message in messages %}
@@ -25,6 +27,8 @@
         {% endfor %}
     {% endif %}
 {% endwith %}
-{% block content %}{% endblock %}
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
 </body>
 </html>

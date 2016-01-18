@@ -1,23 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
     {% if g.user.is_authenticated %}
-        <div class="welcome-logged">
-            <h1>Hi, {{ user.username }}!</h1>
-            {% include "post_form.html" %}
-            <hr/>
-            <div id="post-list">
-                {% for post in posts.items %}
-                    {% with user=post.author %}
-                        {% include 'post.html' %}
-                    {% endwith %}
-                {% endfor %}
-                {% if posts.has_prev %}<a href="{{ url_for('index', page=posts.prev_num) }}">&lt;&lt; Newer posts</a>{% else %}&lt;&lt; Newer posts{% endif %} |
-                {% if posts.has_next %}<a href="{{ url_for('index', page=posts.next_num) }}">Older posts &gt;&gt;</a>{% else %}Older posts &gt;&gt;{% endif %}
-            </div>
+        <h1>Hi, {{ user.username }}!</h1>
+        {% include "post_form.html" %}
+        <div id="post-list">
+            {% for post in posts.items %}
+                {% with user=post.author %}
+                    {% include 'post.html' %}
+                {% endwith %}
+            {% endfor %}
+            {{ macros.pager(posts, "Newer messages", "Older messages", url_for("index", page=posts.prev_num), url_for("index", page=posts.next_num)) }}
         </div>
+        <hr/>
     {% else %}
-        <div class="container welcome-anonymouse">
-            <p>Welcome to the magical world of your mother.</p>
-        </div>
+        <p>Welcome to the magical world of your mother.</p>
     {% endif %}
 {% endblock %}

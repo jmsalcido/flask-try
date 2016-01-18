@@ -24,9 +24,9 @@ def index(page=1):
     if g.user.is_authenticated:
         user = User.query.filter_by(username=g.user.username).first()
         posts = g.user.followed_posts().paginate(page, POSTS_PER_PAGE, False)
-        return render_template('index.html', title="Home", form=form, user=user, posts=posts)
+        return render_template('index.html', title="Home", active="home", form=form, user=user, posts=posts)
     messages = ["123", "pruebini", "otra prueba"]
-    return render_template('index.html', title="Home", messages=messages)
+    return render_template('index.html', title="Home", active="home", messages=messages)
 
 
 @app.route("/post", methods=["POST"])
@@ -49,7 +49,7 @@ def post():
 def login():
     form = LoginForm()
     if request.method == "GET" and not g.user.is_authenticated:
-        return render_template('login.html', title='Sign In', form=form)
+        return render_template('login.html', title='Sign In', active="login", form=form)
     elif request.method == "POST":
         if form.validate_on_submit():
             user = find_user(request.form["username"])
@@ -58,7 +58,7 @@ def login():
                 user.save()
             login_user(user, remember=form.remember_me.data)
         else:
-            return render_template('login.html', title='Sign In', form=form)
+            return render_template('login.html', title='Sign In', active="login", form=form)
     return redirect(request.args.get('next') or url_for('index'))
 
 
@@ -73,7 +73,7 @@ def logout():
 def register():
     form = RegisterForm()
     if request.method == "GET" and not g.user.is_authenticated:
-        return render_template("register.html", form=form)
+        return render_template("register.html", active="register", form=form)
     elif request.method == "POST":
         if form.validate_on_submit():
             user = User(request.form["username"], request.form["password"], request.form["email"])
@@ -81,7 +81,7 @@ def register():
             user.save()
             flash('User successfully registered')
             return redirect(url_for("login"))
-        return render_template("register.html", form=form)
+        return render_template("register.html", form=form, active="register")
     return redirect(request.args.get('next') or url_for('index'))
 
 
@@ -94,7 +94,7 @@ def user_profile(username, page=1):
         return redirect(url_for('index'))
     posts = user.posts.order_by(Post.timestamp.desc()).paginate(page, POSTS_PER_PAGE, False)
     title = "{0} Profile".format(username)
-    return render_template('user/user.html', title=title, user=user, posts=posts)
+    return render_template('user/user.html', title=title, active="profile", user=user, posts=posts)
 
 
 @app.route('/user/edit/', methods=['GET', 'POST'])

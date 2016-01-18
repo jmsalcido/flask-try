@@ -1,45 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-    <style>
-        #user-avatar {
-            margin-right: 10px;
-            float: left;
-        }
-
-        #user-header {
-            min-height: 200px;
-        }
-
-        #post-list .username,
-        #user-info .username {
-            font-weight: bold;
-        }
-
-        #user-info .user-box {
-            max-width: 600px;
-            width: 30%;
-        }
-
-        #user-info span.user-info {
-            display: block;
-        }
-
-        #post-list div.post-body {
-            margin-bottom: 32px;
-        }
-
-        .post .post-body {
-            overflow: hidden;
-        }
-
-        .post img {
-            margin-right: 10px;
-            float: left;
-        }
-    </style>
     <div id="user-header">
-        <div id="user-info">
-            <h1>Username Info:</h1>
+        <div id="user-info" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3>Username Info:</h3>
+            </div>
             <div class="user-box">
                 <img id="user-avatar" src="{{ user.avatar(128) }}"/>
                 <div class="user-info">
@@ -71,7 +36,6 @@
                 {% include 'post.html' %}
             {% endwith %}
         {% endfor %}
-        {% if posts.has_prev %}<a href="{{ url_for('user_profile', username=user.username, page=posts.prev_num) }}">&lt;&lt; Newer posts</a>{% else %}&lt;&lt; Newer posts{% endif %} |
-        {% if posts.has_next %}<a href="{{ url_for('user_profile', username=user.username, page=posts.next_num) }}">Older posts &gt;&gt;</a>{% else %}Older posts &gt;&gt;{% endif %}
+        {{ macros.pager(posts, "Newer messages", "Older messages", url_for("user_profile", username=user.username, page=posts.prev_num), url_for("user_profile", username=user.username, page=posts.next_num)) }}
     </div>
 {% endblock %}

@@ -11,3 +11,18 @@
         {% endif %}
     </div>
 {%- endmacro %}
+
+{% macro pager(pager, newer, older, url_prev, url_next) -%}
+    <ul class="pager">
+        {% if pager.has_prev %}
+            <li><a href="{{ url_prev }}">&lt;&lt; {{ newer }}</a></li>
+        {% else %}
+            <li>{{ newer }}</li>
+        {% endif %}
+        {% if pager.has_next %}
+            <li><a href="{{ url_next }}">{{ older }}&gt;&gt;</a></li>
+        {% else %}
+            <li>{{ older }}</li>
+        {% endif %}
+    </ul>
+{% endmacro %}

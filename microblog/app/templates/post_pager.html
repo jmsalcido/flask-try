@@ -1,0 +1,12 @@
+<ul class="pager">
+    {% if posts.has_prev %}
+        <li><a href="{{ url_for(url, kwargs, page=posts.prev_num) }}">&lt;&lt; Newer posts</a></li>
+    {% else %}
+        <li>Newer posts</li>
+    {% endif %}
+    {% if posts.has_next %}
+        <li><a href="{{ url_for(url, kwargs, page=posts.next_num) }}">Older posts &gt;&gt;</a></li>
+    {% else %}
+        <li>Older posts</li>
+    {% endif %}
+</ul>

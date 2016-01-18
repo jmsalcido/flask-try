@@ -1,3 +1,43 @@
+/* HEADER */
+/* ================================= */
+#header {
+    margin-bottom: 10px;
+    background: #2b542c;
+    overflow: hidden;
+}
+
+#header ul {
+    list-style-type: none;
+    display: inline;
+}
+
+#header .name,
+#header li {
+    float: left;
+    overflow: hidden;
+}
+
+#header .name,
+#header li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+
+}
+
+#header .active {
+    background-color: #4CAF50;
+}
+
+#header li:hover {
+    background: #111;
+}
+
+/* POST INFO */
+/* ================================= */
+
 .post img {
     float: left;
     padding-right: 5px;
