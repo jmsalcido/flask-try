@@ -10,7 +10,7 @@
             <a href="{{ url_for("index") }}">Home</a>
         </li>
         {% if g.user.is_authenticated %}
-            <li class="{% if active == "profile" %}active{% endif %}">
+            <li class="{% if active == "profile" and g.user.username == user.username %}active{% endif %}">
                 <a href="{{ url_for("user_profile", username=g.user.username) }}">Your profile</a>
             </li>
             <li>
