@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     {% if g.user.is_authenticated %}
-        <h1>Hi, {{ user.username }}!</h1>
+        <h1>Welcome to the microblog!</h1>
         {% include "post_form.html" %}
         <div id="post-list">
             {% for post in posts.items %}
@@ -9,7 +9,9 @@
                     {% include 'post.html' %}
                 {% endwith %}
             {% endfor %}
-            {{ macros.pager(posts, "Newer messages", "Older messages", url_for("index", page=posts.prev_num), url_for("index", page=posts.next_num)) }}
+            {{ macros.pager(posts, "Newer messages", "Older messages",
+                url_for("index", page=posts.prev_num),
+                url_for("index", page=posts.next_num)) }}
         </div>
         <hr/>
     {% else %}

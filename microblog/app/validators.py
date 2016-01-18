@@ -7,7 +7,7 @@ class UniqueUsername(object):
         self.message = message
 
     def __call__(self, form, field):
-        user = User.query.filter_by(username=field.data)
+        user = User.query.filter_by(username=field.data).first()
         if user is not None:
             if self.message is None:
                 message = field.gettext('Username must be unique.')

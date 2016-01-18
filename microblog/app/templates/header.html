@@ -1,8 +1,37 @@
-<div id="header">
+<div id="header" class="header-desktop hidden-xs">
+    {% if g.user.is_authenticated %}
+        <img class="img-circle" src="{{ g.user.avatar(32) }}"/>
+    {% endif %}
     <span class="name">
         Microblog:
     </span>
     <ul>
+        <li class="{% if active == "home" %}active{% endif %}">
+            <a href="{{ url_for("index") }}">Home</a>
+        </li>
+        {% if g.user.is_authenticated %}
+            <li class="{% if active == "profile" %}active{% endif %}">
+                <a href="{{ url_for("user_profile", username=g.user.username) }}">Your profile</a>
+            </li>
+            <li>
+                <a href="{{ url_for("logout") }}">Logout</a>
+            </li>
+        {% endif %}
+        {% if not g.user.is_authenticated %}
+            <li class="{% if active == "login" %}active{% endif %}">
+                <a href="{{ url_for("login") }}">Login</a>
+            </li>
+            <li class="{% if active == "register" %}active{% endif %}">
+                <a href="{{ url_for("register") }}">Register</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+<div id="header" class="visible-xs">
+    <span class="name">
+        Microblog:
+    </span>
+    <ul class="nav nav-tabs">
         <li {% if active == "home" %}class="active"{% endif %}>
             <a href="{{ url_for("index") }}">Home</a>
         </li>

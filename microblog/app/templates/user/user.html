@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-    <div id="user-header">
-        <div id="user-info" class="panel panel-primary">
+    <div id="user-header" class="well card">
+        <h2>Username Info:</h2>
+        <div id="user-info" class="panel panel-info">
             <div class="panel-heading">
-                <h3>Username Info:</h3>
+                {{ user.username }}
             </div>
             <div class="user-box">
-                <img id="user-avatar" src="{{ user.avatar(128) }}"/>
+                <img class="img-responsive img-circle" id="user-avatar" src="{{ user.avatar(128) }}"/>
                 <div class="user-info">
                     Username: <span class="username">{{ user.username }}</span>
                 </div>
@@ -36,6 +37,9 @@
                 {% include 'post.html' %}
             {% endwith %}
         {% endfor %}
-        {{ macros.pager(posts, "Newer messages", "Older messages", url_for("user_profile", username=user.username, page=posts.prev_num), url_for("user_profile", username=user.username, page=posts.next_num)) }}
+        {{ macros.pager(posts, "Newer messages", "Older messages",
+            url_for("user_profile", username=user.username, page=posts.prev_num),
+            url_for("user_profile", username=user.username, page=posts.next_num))
+        }}
     </div>
 {% endblock %}

@@ -1,37 +1,44 @@
 /* HEADER */
 /* ================================= */
 #header {
-    margin-bottom: 10px;
-    background: #2b542c;
+    margin-bottom: 2%;
     overflow: hidden;
 }
 
-#header ul {
-    list-style-type: none;
-    display: inline;
+.header-desktop {
+    background: #2b542c;
 }
 
-#header .name,
-#header li {
+.header-desktop ul {
+    list-style-type: none;
+}
+
+.header-desktop .name,
+.header-desktop li {
     float: left;
     overflow: hidden;
 }
 
-#header .name,
-#header li a {
+.header-desktop .name,
+.header-desktop li a {
     display: block;
     color: white;
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
-
 }
 
-#header .active {
+.header-desktop img {
+    float: left;
+    margin-top: 7px;
+    margin-left: 10px;
+}
+
+.header-desktop .active {
     background-color: #4CAF50;
 }
 
-#header li:hover {
+.header-desktop li:hover {
     background: #111;
 }
 
@@ -40,10 +47,40 @@
 
 .post img {
     float: left;
-    padding-right: 5px;
+    vertical-align: middle;
+    padding: 10px;
+    overflow: hidden;
 }
 
-.post {
+.post .content {
     overflow: hidden;
-    padding-bottom: 5px;
+    min-height: 30px;
+}
+
+.post .username {
+    font-weight: bold;
+}
+
+/* USER INFO */
+/* ================================= */
+#user-header h3 {
+    margin: 0;
+    padding: 0;
+}
+
+/* GENERAL SHIT */
+/* ================================= */
+
+.img-left {
+    float: left;
+    margin-right: 5px;
+}
+
+.img-right {
+    float: right;
+    margin-left: 5px;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }

@@ -1,50 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
-    <style>
-        #post-list .username,
-        #user-info .username {
-            font-weight: bold;
-        }
-
-        #user-info .user-box {
-            max-width: 600px;
-            width: 30%;
-        }
-
-        #user-info span.user-info {
-            display: block;
-        }
-
-        #post-list div.post-body {
-            margin-bottom: 32px;
-        }
-
-        .post .post-body {
-            overflow: hidden;
-        }
-
-        .post img {
-            margin-right: 10px;
-            float: left;
-        }
-
-        .error {
-            color: red
-        }
-    </style>
-    <div id="user-header">
-        <form action="" method="POST" name="edit_user">
+    <div id="user-header" class="well">
+        <form class="form-horizontal" action="" method="POST">
             {{ form.hidden_tag() }}
             <div id="user-info">
                 <h1>Username Info:</h1>
-                <div class="user-box">
-                    <div id="user-avatar">
-                        <img src="{{ user.avatar(128) }}"/>
+                <div class="panel panel-info">
+                    <div id="user-avatar" class="panel-heading">
+                        <img class="img-circle" src="{{ user.avatar(128) }}"/>
                     </div>
-                    {{ macros.render_field(form.username, "user-info", size=24)}}
-                    {{ macros.render_field(form.about_me, "user-info", cols=32, rows=4)}}
-                    <span class="user-info">Registered on: {{ user.registered_on }}</span>
-                    <input type="submit" value="Save Changes">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="{{ form.username.id }}" class="col-sm-2 control-label">
+                                Username *:
+                            </label>
+                            <div class="col-sm-4">
+                                <input id="{{ form.username.id }}" class="form-control" name="username"
+                                       value="{{ form.original_username }}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                                About Me:
+                            </label>
+                            <div class="col-sm-6">
+                                <textarea placeholder="Tell us about you..." id="{{ form.about_me.id }}" rows="4" class="form-control" name="{{ form.about_me.name }}">{{ form.about_me.data }}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-sm-6">Registered on: <span class="text-info">{{ user.registered_on }}</span> <span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                        <button type="submit" class="btn btn-danger">
+                            Save Changes
+                        </button>
+                    </div>
                 </div>
             </div>
         </form>

@@ -1,22 +1,32 @@
 <div class="say-something">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h4>Say something:</h4>
-        </div>
-        <div class="panel-body ">
-            <form action="/post" method="POST" name="post">
-                {{ form.hidden_tag() }}
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-sm-10">
-                            <textarea name={{ form.post.name }} class="form-control" rows="3"></textarea>
+    <div class="well card">
+        <h3>Hi, {{ user.username }}!</h3>
+        <p>Please say something on your wall, people who follow you will be able to see this, if you want to see other
+            posts you must follow other users.</p>
+        <p>Pretty much, twitter but without technology, just... a small database and everything is sync.</p>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Say Something
+            </div>
+            <div class="panel-body">
+                <form action="/post" method="POST" name="post" class="form-horizontal">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        <div class="col-md-1">
+                            <img class="img-circle" src="{{ user.avatar(64) }}"/>
+                        </div>
+                        <div class="col-md-11">
+                            <textarea placeholder="Tell us, how is your day going..."
+                                      name={{ form.post.name }} class="form-control" rows="4"></textarea>
                         </div>
                     </div>
-                </div>
-                <button class="btn btn-primary" type="submit">
-                    Say it <span class="glyphicon glyphicon-volume-up"></span>
-                </button>
-            </form>
+                    <div class="col-md-12">
+                        <button class="btn btn-primary" type="submit">
+                            Say it <span class="glyphicon glyphicon-volume-up"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
