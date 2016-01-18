@@ -66,4 +66,4 @@ class EditForm(Form):
 
 
 class PostForm(Form):
-    post = TextAreaField(label='Post', _name="post", validators=[DataRequired()])
+    post = TextAreaField(id="post_something", description="Say something nice", label='Post', validators=[DataRequired()])

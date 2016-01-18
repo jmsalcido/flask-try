@@ -1,0 +1,22 @@
+<div class="say-something">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>Say something:</h4>
+        </div>
+        <div class="panel-body">
+            <form action="/post" method="POST" name="post">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <textarea name={{ form.post.name }} class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">
+                    Say it <span class="glyphicon glyphicon-volume-up"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

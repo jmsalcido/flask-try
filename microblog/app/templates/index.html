@@ -1,23 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-    <style>
-
-        #post-list div.post-body {
-            margin-bottom: 32px;
-        }
-
-    </style>
     {% if g.user.is_authenticated %}
         <div class="welcome-logged">
             <h1>Hi, {{ user.username }}!</h1>
-            <div class="say-something">
-                <h3>Say something:</h3>
-                <form action="/post" method="POST" name="post">
-                    {{ form.hidden_tag() }}
-                    {{ macros.render_field(form.post, size=30, maxlength=140) }}
-                    <input type="submit" value="Say it!"/>
-                </form>
-            </div>
+            {% include "post_form.html" %}
             <hr/>
             <div id="post-list">
                 {% for post in posts.items %}
@@ -30,7 +16,7 @@
             </div>
         </div>
     {% else %}
-        <div class="welcome-anonymouse">
+        <div class="container welcome-anonymouse">
             <p>Welcome to the magical world of your mother.</p>
         </div>
     {% endif %}

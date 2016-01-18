@@ -25,7 +25,8 @@ def index(page=1):
         user = User.query.filter_by(username=g.user.username).first()
         posts = g.user.followed_posts().paginate(page, POSTS_PER_PAGE, False)
         return render_template('index.html', title="Home", form=form, user=user, posts=posts)
-    return render_template('index.html', title="Home")
+    messages = ["123", "pruebini", "otra prueba"]
+    return render_template('index.html', title="Home", messages=messages)
 
 
 @app.route("/post", methods=["POST"])
@@ -37,6 +38,8 @@ def post():
             post = Post(body=form.post.data, timestamp=datetime.utcnow(), author=g.user)
             post.save()
             flash("Your post is now live!")
+            return redirect(url_for("index"))
+        else:
             return redirect(url_for("index"))
     else:
         abort(405)

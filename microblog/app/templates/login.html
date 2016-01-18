@@ -7,8 +7,8 @@
         {{ form.hidden_tag() }}
         {{ macros.render_field(form.username, "username_field")}}
         {{ macros.render_field(form.password, "password_field automation_password_field")}}
-        {{ macros.render_field(form.remember_me)}}
-        <input type="submit" value="Sign In">
+        {{ macros.render_field(form.remember_me, "checkbox")}}
+        <input class="btn btn-default" type="submit" value="Sign In">
     </form>
     <hr>
     <p>or <a href="/register">Register!</a></p>

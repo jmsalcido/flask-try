@@ -1,0 +1,9 @@
+.post img {
+    float: left;
+    padding-right: 5px;
+}
+
+.post {
+    overflow: hidden;
+    padding-bottom: 5px;
+}

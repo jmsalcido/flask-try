@@ -3,18 +3,44 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        watch: {
+            scripts: {
+                files: ['assets/**/*'],
+                tasks: ['package-dev'],
+                options: {
+                    spawn: false
+                }
+            }
+        },
         clean: [
             "dist",
-            "app/static/js/"
+            "app/static/js/",
+            "app/static/css/",
+            "app/static/fonts/"
         ],
         copy: {
             main: {
                 files: [
                     {
                         expand:true,
-                        flatten: true,
-                        src: ['dist/js/*.min.js'],
-                        dest: 'app/static/js/',
+                        cwd: "assets/",
+                        src: [
+                            'js/*.min.js',
+                            'css/*.min.css',
+                            'fonts/*'
+                        ],
+                        dest: 'app/static/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'dist/',
+                        src: [
+                            'js/*.min.js',
+                            'css/*.min.css',
+                            'fonts/*'
+                        ],
+                        dest: 'app/static/',
                         filter: 'isFile'
                     }
                 ]
@@ -23,9 +49,24 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand:true,
-                        flatten: true,
-                        src: ['dist/js/*.js'],
-                        dest: 'app/static/js/',
+                        cwd: "assets/",
+                        src: [
+                            'js/*.js',
+                            'css/*.css',
+                            'fonts/*'
+                        ],
+                        dest: 'app/static/',
+                        filter: 'isFile'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'dist/',
+                        src: [
+                            'js/*.js',
+                            'css/*.css',
+                            'fonts/*'
+                        ],
+                        dest: 'app/static/',
                         filter: 'isFile'
                     }
                 ]
@@ -39,8 +80,8 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     flatten: true,
-                    src: 'dist/js/*.js',
-                    dest: 'dist/js/ugly/',
+                    src: ['dist/js/*.js', 'assets/js/*.js'],
+                    dest: 'dist/js/',
                     ext: '.min.js'
                 }]
             }
@@ -51,11 +92,20 @@ module.exports = function (grunt) {
             },
             scripts: {
                 options: {
-                    destPrefix: 'dist/js/'
+                    destPrefix: 'dist/'
                 },
                 files: {
-                    "jquery.js": "jquery/src/jquery.js",
-                    "bootstrap.js": "bootstrap/dist/js/bootstrap.js"
+                    "js/jquery.js": "jquery/dist/jquery.js",
+                    "js/bootstrap.js": "bootstrap/dist/js/bootstrap.js",
+                    "css/bootstrap.css": "bootstrap/dist/css/bootstrap.css"
+                }
+            },
+            folders: {
+                options: {
+                    destPrefix: 'dist/'
+                },
+                files: {
+                    "fonts": "bootstrap/dist/fonts"
                 }
             }
         }
@@ -66,10 +116,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-bowercopy');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task(s).
     grunt.registerTask('default', ['clean']);
     grunt.registerTask('package-dev', ['clean', 'bowercopy', 'copy:dev']);
-    grunt.registerTask('package', ['clean', 'bowercopy', 'uglify', 'copy']);
+    grunt.registerTask('package', ['clean', 'bowercopy', 'uglify', 'copy:main']);
 
 };
