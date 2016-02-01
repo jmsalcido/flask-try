@@ -97,7 +97,8 @@ module.exports = function (grunt) {
                 files: {
                     "js/jquery.js": "jquery/dist/jquery.js",
                     "js/bootstrap.js": "bootstrap/dist/js/bootstrap.js",
-                    "css/bootstrap.css": "bootstrap/dist/css/bootstrap.css"
+                    "css/bootstrap.css": "bootstrap/dist/css/bootstrap.css",
+                    "js/moment.js": "moment/moment.js"
                 }
             },
             folders: {

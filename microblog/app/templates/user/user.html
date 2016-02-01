@@ -14,9 +14,9 @@
                 {% if user.about_me %}
                     <span class="user-info">About me: {{ user.about_me }}</span>
                 {% endif %}
-                <span class="user-info">Registered on: {{ user.registered_on }}</span>
+                <span class="user-info">Registered on: {{ momentjs(user.registered_on).calendar() }}</span>
                 {% if user.last_seen %}
-                    <span class="user-info">Last seen on: {{ user.last_seen }}</span>
+                    <span class="user-info">Last seen on: {{ momentjs(user.last_seen).calendar() }}</span>
                 {% endif %}
             </div>
         </div>

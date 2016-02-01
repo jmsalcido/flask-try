@@ -2,7 +2,8 @@
     <img class="img-circle" src="{{ user.avatar(48) }}">
     <div class="post-body well well-sm">
         <div class="user">
-            <span class="username">{{ post.author.username }}</span> says:
+            <span class="username">{{ post.author.username }}</span> said <span
+                class="post-date">{{ momentjs(post.timestamp).fromNow() }}</span>:
         </div>
         <div class="content">
             {{ post.body }}

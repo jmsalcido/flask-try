@@ -12,6 +12,9 @@ lm.login_view = "login"
 mail = Mail(app)
 
 from app import views, models
+from .momentjs import Momentjs
+
+app.jinja_env.globals['momentjs'] = Momentjs
 
 if not app.debug:
     import logging
