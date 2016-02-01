@@ -77,8 +77,8 @@ def register():
     elif request.method == "POST":
         if form.validate_on_submit():
             user = User(request.form["username"], request.form["password"], request.form["email"])
-            user.follow(user)
             user.save()
+            user.follow(user)
             flash('User successfully registered')
             return redirect(url_for("login"))
         return render_template("register.html", form=form, active="register")

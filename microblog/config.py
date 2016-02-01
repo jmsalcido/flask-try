@@ -5,7 +5,11 @@ SECRET_KEY = 'you-will-never-guess'
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+use_postgres = False
+if use_postgres:
+    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/microblog'
+else:
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
 # mail server settings
