@@ -5,11 +5,17 @@ SECRET_KEY = 'you-will-never-guess'
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-use_postgres = False
+databaseurl = os.environ.get("OPENSHIFT_POSTGRESQL_DB_URL")
+
+use_postgres = True
 if use_postgres:
-    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/microblog'
+    if databaseurl is not None:
+        SQLALCHEMY_DATABASE_URI = databaseurl
+    else:
+        SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/flaskmicroblog'
 else:
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
 # mail server settings
