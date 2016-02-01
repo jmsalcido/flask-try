@@ -6,6 +6,10 @@ SECRET_KEY = 'you-will-never-guess'
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 databaseurl = os.environ.get("OPENSHIFT_POSTGRESQL_DB_URL")
+logdir = os.environ.get("OPENSHIFT_LOG_DIR")
+
+if logdir is None:
+    logdir = "tmp/"
 
 use_postgres = True
 if use_postgres:
